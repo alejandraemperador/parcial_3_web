@@ -3,6 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { requestValidationPipe } from "../common/request-validation.pipe";
 import { CreateLoanRequestDto } from "./dto/create-loan-request.dto";
 import { LoanRequestsService } from "./loan-requests.service";
+import { ListLoanRequestsDto } from "./dto/list-loan-requests.dto";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("loan-requests")
@@ -10,9 +11,9 @@ export class LoanRequestsController {
   constructor(private readonly service: LoanRequestsService) {}
 
   @Get()
-  findAll(@Query) {
+  findAll(@Query(requestValidationPipe) query: ListLoanRequestsDto) {
     // TODO BACK-A: recibir la consulta con @Query, validarla con el pipe y pasar el filtro.
-    return this.service.findAll();
+    return this.LoanRequestsService.findAll(query.toolId);
   }
 
   @Get(":id")
