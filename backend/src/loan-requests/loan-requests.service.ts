@@ -15,15 +15,15 @@ export class LoanRequestsService {
     // TODO BACK-A: recibir el filtro y aplicarlo en la consulta del repositorio.
     
    findAll(toolId?: number) {
-    return this.LoanRequestsRepository.find({
-      where: toolId ? { tool: { id: toolId } } : {},
-      relations: { tool: true },
-      order: { id: 'ASC' },
-      
-    });
+  return this.requests.find({
+    where: toolId !== undefined
+      ? { tool: { id: toolId } }
+      : {},
+    relations: { tool: true },
+    order: { id: "ASC" }
+  });
   }
   
-
   async findOne(id: number) {
     const request = await this.requests.findOne({ where: { id }, relations: { tool: true } });
     if (!request) throw new NotFoundException("Loan request not found.");
@@ -36,7 +36,7 @@ export class LoanRequestsService {
 
     // TODO BACK-B: aplicar la regla de duración antes de guardar la solicitud.
      if (dto.days > tool.maxLoanDays) {
-      throw new ConflictException('Requested days exceed maximum allowed for this tool');
+      throw new ConflictException('The requested number of days exceeds the maximum allowed in this tool');
     }
 
     const request = this.requests.create({ purpose: dto.purpose, days: dto.days, tool });

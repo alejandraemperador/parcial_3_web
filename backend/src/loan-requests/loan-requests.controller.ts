@@ -7,14 +7,15 @@ import { ListLoanRequestsDto } from "./dto/list-loan-requests.dto";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("loan-requests")
+
 export class LoanRequestsController {
   constructor(private readonly service: LoanRequestsService) {}
 
   @Get()
-  findAll(@Query(requestValidationPipe) query: ListLoanRequestsDto) {
-    // TODO BACK-A: recibir la consulta con @Query, validarla con el pipe y pasar el filtro.
-    return this.LoanRequestsService.findAll(query.toolId);
-  }
+findAll(@Query(requestValidationPipe) dto: ListLoanRequestsDto) {
+  return this.service.findAll(dto.toolId);
+}
+
 
   @Get(":id")
   findOne(@Param("id", ParseIntPipe) id: number) {
