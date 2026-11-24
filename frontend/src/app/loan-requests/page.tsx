@@ -23,7 +23,7 @@ export default async function LoanRequestsPage({ searchParams }: LoanRequestsPag
   const {toolId} = await searchParams;
   const path = toolId
   ? `/loan-requests?toolId=${encodeURIComponent(toolId)}`
-  : "/print-request";
+  : "/loan-request";
   const response = await apiFetch(path);
 
   if(!response.ok){
@@ -40,8 +40,8 @@ export default async function LoanRequestsPage({ searchParams }: LoanRequestsPag
       <Link className="button" href="/loan-requests/new">New request</Link>
       <form action={logout}><button type="submit">Cerrar sesión</button></form>
       <div className="actions">
-        <Link href="/loans-requests">All</Link>
-        <Link href="/loans-requests?toolId=toolId">
+        <Link href="/loan-requests">All</Link>
+        <Link href="/loan-requests?toolId=toolId">
           ToolId
         </Link>
       </div>
